@@ -78,10 +78,12 @@ query_ipv6() {
 }
 
 url2csv() {
+	read -p "Type $(tput bold)Yes$(tput sgr0) to continue... " && [ $REPLY == "Yes" ] || { echo "$(tput bold; tput setaf 1)Canceled$(tput sgr0)"; exit 1; }
 	: >$CSV
 	#      1        2           3           4            5            6        7      8               9              10
 	#echo "password,remote_addr,remote_port,country_code,country_name,provider,number,time_appconnect,speed_download,ipv4" >>$CSV
-	total=$(cat $BASE64_URLS | base64 -d | wc -l)
+	BASE64_URLS=$(curl --progress-bar $TROJAN_SUBURL)
+	total=$(echo "$BASE64_URLS" | base64 -d | wc -l)
 	local i=0
 	while IFS=, read -r password remote_addr remote_port mark; do
 		local i=$(($i + 1))
@@ -101,7 +103,7 @@ url2csv() {
 		echo "$i/$total | $country_code $provider $number | $time_appconnect $speed_download | $ipv4"
 		echo "$password,$remote_addr,$remote_port,$country_code,$country_name,$provider,$number,$time_appconnect,$speed_download,$ipv4" >>$CSV
 		sleep 2
-	done < <(urldecode "$(curl -s "$TROJAN_SUBURL" | base64 -d | sed 's#^trojan://##' | sed 's/?allowInsecure=1&tfo=1//' | sed 's/@/,/; s/:/,/; s/#/,/')" | country_zh2code)
+	done < <(urldecode "$(echo "$BASE64_URLS" | base64 -d | sed 's#^trojan://##' | sed 's/?allowInsecure=1&tfo=1//' | sed 's/@/,/; s/:/,/; s/#/,/')" | country_zh2code)
 }
 
 switch_proxy() {
