@@ -1,0 +1,20 @@
+x() { echo "which session?"; read && sx $HOME/.config/sx/sxrc $REPLY; }
+
+# memory usage
+memu() {
+	local CHECK=" $@"
+	[ -z $1 ] || [ "${CHECK#* -}" != "$CHECK" ] && { echo "Usage: memu program [program...]"; return 1; }
+	local PIDS=$(pidof "$@")
+	test -z "$PIDS" && return 0
+	echo "$PIDS" \
+		| xargs -I{} ps -p "{}" -o size,vsize,rss,cmd \
+		| awk 'NR==1; NR>1 {print $1"K", $2"Ki", $3"K", $4}' \
+		| numfmt --header --field 1,3 --from=si --to=si --suffix=B --format %.1f \
+		| numfmt --header --field 2 --from=iec-i --to=iec-i --suffix=B --format %.1f \
+		| sort -hk3,3 \
+		| column -t -R1,2,3 \
+		| GREP_COLORS='mt=1;94' egrep --color=always '.*SIZE.*VSZ.*RSS.*CMD.*|$' \
+		| GREP_COLORS='mt=1;32' egrep --color=always "KB|KiB|$" \
+		| GREP_COLORS='mt=0;33' egrep --color=always 'MB|MiB|$' \
+		| GREP_COLORS='mt=1;31' egrep --color=always "GB|GiB|$"
+}

@@ -1,0 +1,66 @@
+#!/bin/sh
+
+#start-pulseaudio-x11 &
+#eval "$(dbus-launch --sh-syntax --exit-with-session)"
+#XCURSOR_THEME=DMZBlackLH
+#xinput set-button-map 9 3 2 1
+#xinput set-prop 9 'libinput Accel Speed' -0.3
+
+run_dwm() {
+	#xsetroot -solid "#333333"
+	xrdb $HOME/.Xresources
+	feh --randomize \
+		--bg-scale $HOME/Pictures/Wallpapers/Landscape/*.jpg \
+		--bg-scale $HOME/Pictures/Wallpapers/Portrait/*.jpg
+	xsidle.sh slock &
+	dwm_update_status.sh 2>&1 >/dev/null &
+	#fcitx &
+	exec dwm
+}
+
+run_bspwm() {
+	xrdb $HOME/.Xresources
+	feh --randomize \
+		--bg-scale $HOME/Pictures/Wallpapers/Landscape/*.jpg \
+		--bg-scale $HOME/Pictures/Wallpapers/Portrait/*.jpg
+	sxhkd &
+	exec bspwm
+}
+
+run_2bwm() {
+	xrdb $HOME/.Xresources
+	feh --randomize \
+		--bg-scale $HOME/Pictures/Wallpapers/Landscape/*.jpg \
+		--bg-scale $HOME/Pictures/Wallpapers/Portrait/*.jpg
+	#setxkbmap us dvp
+	#setxkbmap -layout us -variant dvp -option compose:102 -option numpad:shift3 -option kpdl:semi -option keypad:atm -option caps:shift
+	~/.local/bin/lemon2bstatus.sh &
+	exec 2bwm
+
+}
+
+run_sowm() {
+	xrdb $HOME/.Xresources
+	feh --randomize \
+		--bg-scale $HOME/Pictures/Wallpapers/Landscape/*.jpg \
+		--bg-scale $HOME/Pictures/Wallpapers/Portrait/*.jpg
+	exec sowm
+}
+
+
+export SESSION=${1:-dwm}
+
+case $SESSION in
+	dwm )		run_dwm;;
+	bspwm )		run_bspwm;;
+	openbox )	exec openbox-session;;
+	lxqt )		exec startlxqt;;
+	xmonad )	exec xmonad;;
+	xfce )		exec startxfce4;;
+	budgie )	exec budgie-desktop;;
+	gnome )		exec gnome-session;;
+	2bwm )		run_2bwm;;
+	sowm )		run_sowm;;
+	* )		exec $SESSION;;
+esac
+
