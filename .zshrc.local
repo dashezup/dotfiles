@@ -1,3 +1,18 @@
+# speedtest
+speedtest-connection() {
+	time_seconds=$(curl -o/dev/null -sw '%{time_appconnect}' 'https://connectivitycheck.gstatic.com/generate_204')
+	printf "%.0fms\n" $((time_seconds * 1000))
+}
+
+# wordnet
+wn() { while true; do dict -d wn $(read -e); done }
+
+# zsh-insulter
+if [ -f /etc/zsh.command-not-found ]; then
+	. /etc/zsh.command-not-found
+fi
+
+# Xorg
 x() { echo "which session?"; read && sx $HOME/.config/sx/sxrc $REPLY; }
 
 # memory usage
