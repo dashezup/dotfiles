@@ -33,3 +33,38 @@ memu() {
 		| GREP_COLORS='mt=0;33' egrep --color=always 'MB|MiB|$' \
 		| GREP_COLORS='mt=1;31' egrep --color=always "GB|GiB|$"
 }
+
+# morse code, base64
+mbt() {
+	echo "morse code base64 enc/dec"
+	local NUM_OUTPUT_COLOR=$(shuf -n1 <(echo 3; seq 5 6))
+	while true; do
+		read input"?$(tput bold)$(tput setf 1)> $(tput sgr0)"
+		if [ -z $input ]; then
+			local OUTPUT=$(xclip -selection clipboard -o | base64 -d | morse -d)
+			echo "$(tput setf $NUM_OUTPUT_COLOR)${OUTPUT}$(tput sgr0)"
+		else
+			local OUTPUT=$(echo "$input" | morse -e | base64 -w0)
+			echo "$OUTPUT" | xclip -selection clipboard
+			echo "$(tput setf 2)${OUTPUT}$(tput sgr0)"
+		fi
+	done
+}
+mat() {
+	if [ -z "$1" ]; then
+		echo "convert text into audio file with morse code"
+		read input"?> "
+		[ -z "$input" ] \
+			&& { echo "NO INPUT"; return 0; } \
+			|| echo $input \
+			| cwwav -o/tmp/cw.wav -f650 -w20 2>/dev/null
+		opusenc --quiet /tmp/cw.wav cw_$(date -u +%FT%TZ).opus \
+			&& echo $_
+	else
+		[ ! -f "$1" ] \
+			&& { echo "\"$1\" not found"; exit 0; } \
+			|| sox $1 -esigned-integer -b16 -r 22050 -t raw - 2>/dev/null \
+			| multimon-ng -q -t raw -a MORSE_CW -
+	fi
+	rm -f /tmp/cw.wav
+}
