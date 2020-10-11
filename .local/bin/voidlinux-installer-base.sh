@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# a shell script to perform a very basic installation of Void Linux
+
+: "${progname:="${0##*/}"}"
 [ "$(id -u)" -ne 0 ] && { echo "This script must be run as root"; exit 1; }
 
 
@@ -13,7 +16,7 @@ partition_format() {
 	umount /dev/sda*
 	umount -R /mnt
 	wipefs -a /dev/sda
-	dd if=/dev/zero of=/dev/sda bs=8M status=progress
+	dd if=/dev/zero of=/dev/sda bs=8M count=80 status=progress
 	(
 	echo o		# create a new empty DOS partition table
 	echo n		# partition 1, primary, 200M
