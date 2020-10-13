@@ -68,3 +68,21 @@ mat() {
 	fi
 	rm -f /tmp/cw.wav
 }
+
+# xbps
+#git -C ~/.cache/xlocate.git ls-tree --full-tree -r --name-only HEAD | rev | sed 's/_/ /; s/-/ /' | rev | column -t -R3 | sk --inline-info --layout=reverse-list --preview="git -C \"$HOME/.cache/xlocate.git\" show master:$(echo {1}-{2}_{3})" --preview-window=up:50% -m
+fxls() {
+	local HEADER="[Enter] Print selected [TAB] Toggle selection [ALT-F] View file [ALT-I] Info [ALT+H] Homepage"
+	local REPO="$HOME/.cache/xlocate.git"
+	git -C "$REPO" ls-tree --full-tree -r --name-only HEAD | rev | sed 's/_/ /; s/-/ /' | rev | column -t -R3 \
+		| sk --inline-info \
+			--prompt "pkg > " \
+			--layout=reverse-list \
+			--preview="git -C \"$REPO\" show master:$(echo {1}-{2}_{3})" \
+			--preview-window=up:50% \
+			-m \
+			--bind "alt-f:execute[ git -C \"$REPO\" show master:$(echo {1}-{2}_{3}) | sk --layout=reverse-list --prompt '{1} > ' ]" \
+			--bind "alt-i:execute[ xbps-query -v -R {1} | sk --layout=reverse-list --prompt '{1} > ' ]" \
+			--bind 'alt-h:execute-silent[ xdg-open "$(xbps-query -p homepage -R {1})" & ]' \
+			${1:+--query "$@"}
+}
