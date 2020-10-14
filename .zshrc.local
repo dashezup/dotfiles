@@ -93,7 +93,7 @@ sgview() {
 		&& local URL=$(read -e "?URL: ") \
 		|| local URL=$1
 	curl --progress-bar "$URL" \
-		| sed -n 's|<a href="#.*" class="line" id=".*">.*</a>||p' \
+		| sed -n 's|^<a href="#.*" class="line" id=".*">.*</a>||p' \
 		| recode html..ascii \
 		| bat -n
 }
