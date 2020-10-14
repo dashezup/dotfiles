@@ -86,3 +86,14 @@ fxls() {
 			--bind 'alt-h:execute-silent[ xdg-open "$(xbps-query -p homepage -R {1})" & ]' \
 			${1:+--query "$@"}
 }
+
+# stagit viewer
+sgview() {
+	[ -z "$1" ] \
+		&& local URL=$(read -e "?URL: ") \
+		|| local URL=$1
+	curl --progress-bar "$URL" \
+		| sed -n 's|<a href="#.*" class="line" id=".*">.*</a>||p' \
+		| recode html..ascii \
+		| bat -n
+}
