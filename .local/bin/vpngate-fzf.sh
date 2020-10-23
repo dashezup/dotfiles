@@ -48,7 +48,7 @@ get_csv() {
 }
 
 get_srv() {
-	local NUM=$(get_csv | column -s, -t -R3,4,5,8,10,11 | fzf | cut -d' ' -f1)
+	local NUM=$(get_csv | column -s, -t -R3,4,5,8,10,11 | fzf +s | cut -d' ' -f1)
 	[ -z "$NUM" ] && exit 0
 	if [ "$NUM" -ne 0 ]; then
 		local SRV=$(sed -n "$(($NUM + 2))p" $CSV)

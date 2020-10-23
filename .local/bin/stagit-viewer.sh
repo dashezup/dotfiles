@@ -16,7 +16,7 @@ view_file() {
 	local LIST_FILE=$(echo "$HTML_FILE" | sed -n 's|^<tr><td>.*</td><td><a href=".*">\(.*\)</a></td><td class="num" align="right">.*</td></tr>$|\1|p')
 	local HOMEPAGE=$(echo "$1" | sed 's/files.html$//')
 	while true; do
-		local FILE_PATH=$(echo "$LIST_FILE" | GREP_COLORS="sl=0;34;49:ms=0;90;49" grep --color=always '^\|[^/]*$' | fzf --ansi +s)
+		local FILE_PATH=$(echo "$LIST_FILE" | GREP_COLORS="sl=0;34;49:ms=0;37;49" grep --color=always '^\|[^/]*$' | fzf --ansi +s)
 		[ -z "$FILE_PATH" ] && return 0
 		view_raw_file ${HOMEPAGE}file/${FILE_PATH}.html
 	done
