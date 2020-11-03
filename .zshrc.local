@@ -11,6 +11,7 @@ alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
 . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 . /usr/share/zsh/site-functions/skim-key-bindings.zsh
+#. $HOME/.local/share/grc/grc.zsh
 
 if [ ! -z ${DISPLAY+x} ] ; then
 	. /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
@@ -33,8 +34,25 @@ fi
 
 ## functions
 # speedtest
+speedtest-socks-connection() {
+	local URL="https://www.google.com/generate_204"
+	echo 'http_code\ttime_appconnect\ttime_connect\ttime_namelookup\ttime_total'
+	repeat 12 curl \
+		-x socks5h://127.0.0.1:1080 --output /dev/null --silent \
+		--write-out '%{http_code}\t\t%{time_appconnect}\t%{time_connect}\t%{time_namelookup}\t%{time_total}\n' \
+		$URL
+}
+speedtest-socks-speed() {
+	curl \
+		-x socks5h://127.0.0.1:1080 --silent \
+		-o/dev/null --write-out '%{speed_download}' \
+		http://speedtest-sgp1.digitalocean.com/10mb.test \
+		| numfmt --to=iec-i --suffix=B/s
+}
 speedtest-connection() {
-	time_seconds=$(curl -o/dev/null -sw '%{time_appconnect}' 'https://connectivitycheck.gstatic.com/generate_204')
+	#echo 'http_code\ttime_appconnect\ttime_connect\ttime_namelookup\ttime_total'
+	#repeat 7 curl --output /dev/null --silent --write-out '%{http_code}\t\t%{time_appconnect}\t%{time_connect}\t%{time_namelookup}\t%{time_pretransfer}\t\t%{time_redirect}\t%{time_starttransfer}\t\t%{time_total}\n' https://connectivitycheck.gstatic.com/generate_204
+	local time_seconds=$(curl -o/dev/null -sw '%{time_appconnect}' 'https://connectivitycheck.gstatic.com/generate_204')
 	printf "%.0fms\n" $((time_seconds * 1000))
 }
 
