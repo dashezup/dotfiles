@@ -149,3 +149,32 @@ sgview() {
 		| recode html..ascii \
 		| bat -n
 }
+
+# gnuplot for lists of date in format of $(date +%F)
+# sed -n 's/^: //p' ~/.zsh_history | cut -d: -f1 | xargs -L1 -I{} date +%F -d @{} | showplot
+# xbps-query -m | xargs -L1 xbps-query -p install-date | awk '{print $1}' | showplot
+# find ~/Downloads -type f 2>/dev/null | xargs -I{} stat -c %y '{}' 2>/dev/null | showplot
+# tail -n+2 dump.csv | awk -F';' '{print $NF}' | showplot -c
+showplot() {
+	zmodload zsh/datetime
+	local DATA=("${(@f)$(sort /dev/stdin)}")
+	local PFDAY=$(date -u -d "${DATA[1]} -1 day" +%F) # previous day of the first day
+	local NLDAY=$(date -u -d "${DATA[-1]} +1 day" +%F) # next day of the last day
+	local FDATE="${FDATE:-$PFDAY}"
+	local LDATE="${LDATE:-$NLDAY}"
+	local DURATION=$(( ( $(strftime -r %Y-%m-%d $LDATE) - $(strftime -r %Y-%m-%d $FDATE) ) / 86400 ))
+	case "$1" in
+		"-x")	local TYPE="set terminal x11"										;;
+		"-p")	local TYPE="set terminal png size 960,720"								;;
+		"-d")	local TYPE="set terminal png size 960,720; set output '| feh -'"					;;
+		"-c")	local TYPE="set terminal png size 960,720; set output '| xclip -selection clipboard -t image/png'"	;;
+		*)	local TYPE="set terminal dumb size 150,45; set autoscale"						;;
+	esac
+	printf '%s\n' "${DATA[@]}" | uniq -c | awk '{print $2,$1}' | gnuplot -background white -p -e "
+		$TYPE;
+		set xdata time;
+		set timefmt '%Y-%m-%d';
+		set xrange ['$FDATE':'$LDATE'];
+		plot '-' using 1:2 with lines title '${#DATA[@]} items | $FDATE + ${DURATION}d = $LDATE'
+		"
+}
