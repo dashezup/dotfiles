@@ -85,6 +85,12 @@ memu() {
 		| GREP_COLORS='mt=0;33' egrep --color=always 'MB|MiB|$' \
 		| GREP_COLORS='mt=1;31' egrep --color=always "GB|GiB|$"
 }
+ps_mem() {
+	doas ps_mem "$@" \
+		| GREP_COLORS='mt=1;32' egrep --color=auto --color=always "KB|KiB|$" \
+		| GREP_COLORS='mt=0;33' egrep --color=auto --color=always 'MB|MiB|$' \
+		| GREP_COLORS='mt=1;31' egrep --color=auto --color=always "GB|GiB|$"
+}
 
 # morse code, base64
 mbt() {
