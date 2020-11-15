@@ -150,6 +150,13 @@ sgview() {
 		| bat -n
 }
 
+# termbin, fiche
+tb() {
+	[ "$1" = "-i" ] && { local DATA=$(bash -i |& tee /dev/tty); echo "$DATA" | ansifilter | tb; return 0; }
+	[ -z "$1" ] || { cat "$1" | tb; return 0; }
+	zmodload zsh/net/tcp; ztcp ezup.dev 9999; cat >&$REPLY; cat <&$REPLY | tee >(xclip -selection clipboard); ztcp -c $REPLY
+}
+
 # gnuplot for lists of date in format of $(date +%F)
 # sed -n 's/^: //p' ~/.zsh_history | cut -d: -f1 | xargs -L1 -I{} date +%F -d @{} | showplot
 # xbps-query -m | xargs -L1 xbps-query -p install-date | awk '{print $1}' | showplot
