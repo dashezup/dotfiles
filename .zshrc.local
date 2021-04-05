@@ -2,7 +2,8 @@
 source ~/.local/share/zsh/site-functions/_trt && compdef _trt trt
 
 ## alias
-alias vsv="doas vsv"
+alias sv="doas /usr/bin/sv"
+alias vsv="doas /usr/bin/vsv"
 alias gpg="/usr/bin/gpg2"
 alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
 alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
@@ -86,10 +87,16 @@ memu() {
 		| GREP_COLORS='mt=1;31' egrep --color=always "GB|GiB|$"
 }
 ps_mem() {
-	doas ps_mem "$@" \
+	doas /usr/bin/ps_mem "$@" \
 		| GREP_COLORS='mt=1;32' egrep --color=auto --color=always "KB|KiB|$" \
 		| GREP_COLORS='mt=0;33' egrep --color=auto --color=always 'MB|MiB|$' \
 		| GREP_COLORS='mt=1;31' egrep --color=auto --color=always "GB|GiB|$"
+}
+smem() {
+	doas /usr/bin/smem -k "$@" \
+		| GREP_COLORS='mt=1;32' egrep --color=auto --color=always "K |$" \
+		| GREP_COLORS='mt=0;33' egrep --color=auto --color=always 'M |$' \
+		| GREP_COLORS='mt=1;31' egrep --color=auto --color=always "G |$"
 }
 
 # morse code, base64
