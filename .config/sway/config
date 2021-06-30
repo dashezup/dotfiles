@@ -1,0 +1,298 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term foot
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+# https://git.suckless.org/dmenu/file/config.def.h.html
+set $menu bemenu-run -p '' -P '' --hf '#eeeeee' --hb '#005577'
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+set $wallpaper_path $HOME/Pictures/Wallpapers/Landscape
+output * bg `find $wallpaper_path -type f | shuf -n1` fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+output HDMI-A-1 position 0,0
+#output HDMI-A-1 resolution 1440x900 position 0,0
+#output VGA-1 resolution 1440x900 position 1440,0
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+exec swayidle -w \
+    timeout 300 'swaylock -f -c 00000066' \
+    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f -c 00000066'
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+input * {
+    xkb_layout "us"
+    xkb_variant "dvp"
+}
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+set $ws1 1:7
+set $ws2 2:5
+set $ws3 3:3
+set $ws4 4:1
+set $ws5 5:9
+set $ws6 6:0
+set $ws7 7:2
+set $ws8 8:4
+set $ws9 9:6
+set $ws10 10:8
+    # switch to workspace
+    bindsym $mod+bracketleft workspace $ws1
+    bindsym $mod+braceleft workspace $ws2
+    bindsym $mod+braceright workspace $ws3
+    bindsym $mod+parenleft workspace $ws4
+    bindsym $mod+equal workspace $ws5
+    bindsym $mod+asterisk workspace $ws6
+    bindsym $mod+parenright workspace $ws7
+    bindsym $mod+plus workspace $ws8
+    bindsym $mod+bracketright workspace $ws9
+    bindsym $mod+exclam workspace $ws10
+
+    # move focused container to workspace
+    bindsym $mod+Shift+bracketleft move container to workspace $ws1
+    bindsym $mod+Shift+braceleft move container to workspace $ws2
+    bindsym $mod+Shift+braceright move container to workspace $ws3
+    bindsym $mod+Shift+parenleft move container to workspace $ws4
+    bindsym $mod+Shift+equal move container to workspace $ws5
+    bindsym $mod+Shift+asterisk move container to workspace $ws6
+    bindsym $mod+Shift+parenright move container to workspace $ws7
+    bindsym $mod+Shift+plus move container to workspace $ws8
+    bindsym $mod+Shift+bracketright move container to workspace $ws9
+    bindsym $mod+Shift+exclam move container to workspace $ws10
+
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    status_command ~/.config/sway/status-click-notify.sh
+
+    strip_workspace_numbers yes
+
+    tray_padding 4
+
+    colors {
+        statusline #c8ccd4
+        background #1e222a
+	focused_workspace #1a73e8 #1a73e8 #eeeeee
+	active_workspace #7986cb #626ca4 #eeeeee
+        inactive_workspace #424242 #424242 #e0e0e0
+    }
+}
+
+include /etc/sway/config.d/*
+
+# Extra
+xwayland disable
+
+# client.focused #0079d3 #0079d3 #ffffff #2e9ef4 #0079d3
+client.focused #0079d3 #0079d3 #ffffff #2e9ef4 #0079d3
+client.unfocused #545862 #2e3440 #c8ccd4 #292d2e #434c5e
+client.focused_inactive #7986cb #7986cb #c8ccd4 #2e9ef4 #7986cb
+default_border pixel 3
+# hide_edge_borders smart
+assign [app_id="firefox-wayland"] workspace $ws2
+assign [app_id="telegramdesktop"] workspace $ws3
+
+bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
+bindsym $mod+Ctrl+Print exec swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp - | grim -g - - | wl-copy -t image/png
+bindsym $mod+Shift+Print exec grim -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')" - | wl-copy -t image/png
+# Windows
+# swaymsg -t get_tree
+for_window [class="Gimp"] floating enable
+for_window [class="TelegramDesktop"] floating enable
+for_window [class="uTox"] floating enable
+for_window [class="utoxvideo"] floating enable
+for_window [class="scrcpy"] floating enable
+for_window [class="DeltaChat"] floating enable
+for_window [class="feh"] floating enable
+for_window [app_id="imv"] floating enable
+for_window [app_id="mpv"] floating enable
+for_window [app_id="Thunar"] floating enable
+
+# multi-head
+bindsym $mod+tab workspace back_and_forth
+workspace $ws1 output HDMI-A-1
+workspace $ws2 output HDMI-A-1
+workspace $ws3 output HDMI-A-1
+workspace $ws4 output HDMI-A-1
+workspace $ws5 output VGA-1
+workspace $ws6 output VGA-1
+workspace $ws7 output VGA-1
+workspace $ws8 output VGA-1
+workspace $ws9 output VGA-1
+workspace $ws10 output VGA-1
+focus output HDMI-A-1
+focus_follows_mouse no
+#gaps outer 2
+#gaps inner 6
+bindsym $mod+Alt+l exec swaylock -f -c 00000066
+
+exec dbus-update-activation-environment WAYLAND_DISPLAY
+exec --no-startup-id swaymsg workspace $ws7
+exec --no-startup-id swaymsg workspace $ws2
