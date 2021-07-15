@@ -204,3 +204,22 @@ showplot() {
 		plot '-' using 1:2 with lines title '${#DATA[@]} items | $FDATE + ${DURATION}d = $LDATE'
 		"
 }
+
+# https://unix.stackexchange.com/a/49066
+zlibd() (printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" | cat - "$@" | gzip -dc)
+
+# Gentoo emerge history
+mergelop() { qlop -c -M | sort -hrk2 | sed -r 's/:| average| for| merges| merge//g' | awk '$2 < 86400 { cmd = "date -u +%T -d@" $2; print $1, ((cmd | getline res)>0)? res : $2, $3; close(cmd) }' | column -t | sk --no-sort; }
+
+ocr() {
+	grim -g "$(slurp)" - | tesseract - - 2>/dev/null
+}
+
+day_of_week() {
+	# https://stackoverflow.com/a/36389289/15763223
+	rtc_timestamp=$(</sys/class/rtc/rtc0/since_epoch)
+	rtc_date=$(</sys/class/rtc/rtc0/date)
+	dow=$(((rtc_timestamp/86400+4)%7))
+	week=(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
+	echo "${rtc_date} ${week[@]:${dow}:1}"
+}
