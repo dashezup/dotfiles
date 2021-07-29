@@ -1,0 +1,20 @@
+[user]
+	name = Dash Eclipse
+	email = dashezup@disroot.org
+	signingkey = 277795766AFD1FB3
+[commit]
+	gpgsign = true
+[diff]
+	tool = vimdiff
+[http]
+	proxy = socks5h://127.0.0.1:1080
+[https]
+	proxy = socks5h://127.0.0.1:1080
+[init]
+	defaultBranch = main
+[gpg]
+	program = gpg2
+[alias]
+	# git log --name-status
+	wip = "!git add --all; git commit -a -m \"wip: update\""
+	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
