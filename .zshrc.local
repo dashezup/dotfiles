@@ -225,3 +225,5 @@ day_of_week() {
 }
 
 calculator() { while true; do bc <<<"scale=3; $(read -e)"; done }
+
+gtree() { git ls-files $1 | tree --fromfile }
