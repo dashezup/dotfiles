@@ -177,10 +177,11 @@ logpaste() {
 }
 
 # gnuplot for lists of date in format of $(date +%F)
-# sed -n 's/^: //p' ~/.zsh_history | cut -d: -f1 | xargs -L1 -I{} date +%F -d @{} | showplot
+# sed -n 's/^: //p' ~/.zsh_history | cut -d: -f1 | xargs -I{} date +%F -d @{} | showplot
 # xbps-query -m | xargs -L1 xbps-query -p install-date | awk '{print $1}' | showplot
 # find ~/Downloads -type f 2>/dev/null | xargs -I{} stat -c %y '{}' 2>/dev/null | showplot
 # tail -n+2 dump.csv | awk -F';' '{print $NF}' | showplot -c
+# git log --oneline --pretty='%cs' | showplot
 showplot() {
 	zmodload zsh/datetime
 	local DATA=("${(@f)$(sort /dev/stdin)}")
