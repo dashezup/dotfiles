@@ -1,0 +1,3 @@
+#!/bin/sh
+# cloc -vcs git
+git diff --stat "$(git hash-object -t tree /dev/null)"
