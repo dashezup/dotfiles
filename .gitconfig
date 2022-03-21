@@ -18,3 +18,5 @@
 	# git log --name-status
 	wip = "!git add --all; git commit -a -m \"wip: update\""
 	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
+	# cloc -vcs git
+	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
