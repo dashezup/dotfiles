@@ -13,12 +13,12 @@ run_flatpak() {
 		| column -s, -t \
 		| run_bemenu -l18 -p 'Flatpak' \
 		| awk '{print $NF}')
-	test ! -z "$app" && flatpak run "$APP"
+	test ! -z "$APP" && flatpak run "$APP"
 }
 
 run_appimage() {
 	APP=$(ls -d ${HOME}/Desktop/AppImage/*.AppImage | run_bemenu -l18 -p 'AppImage')
-	test ! -z "$app" && exec $APP
+	test ! -z "$APP" && exec $APP
 }
 
 RUN=$(echo "Flatpak\nAppImage" | run_bemenu -l2 -p 'RUN')
