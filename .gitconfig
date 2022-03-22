@@ -23,6 +23,7 @@
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 [alias]
 	# git log --name-status
+	s = status -s
 	wip = "!git add --all; git commit -a -m \"wip: update\""
 	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
 	cloc = !cloc -vcs git
@@ -37,4 +38,4 @@
 	# git arc [tar|tgz|tar.gz|zip]
 	# git archive --list
 	# zcat repo_2022-03-22_feat-initial-commit.tar.gz | git get-tar-commit-id
-	arc = "!f() { test -z \"$1\" && return 1; RN=\"$(basename $(git rev-parse --show-toplevel))\"; EN=\"$(git log -1 --oneline --pretty=%as_%f)\"; git archive --format=\"$1\" -o \"${RN}_${EN}.${1}\" --prefix=\"$(basename $(git rev-parse --show-toplevel))_$(date -I)/\" HEAD; }; f"
+	arc = "!f() { test -z \"$1\" && return 1; FMT=\"$1\"; RN=\"$(basename $(git rev-parse --show-toplevel))\"; EN=\"$(git log -1 --oneline --pretty=%as_%f)\"; git archive --format=\"$FMT\" -o \"${RN}_${EN}.${FMT}\" --prefix=\"${RN}/\" HEAD; }; f"
