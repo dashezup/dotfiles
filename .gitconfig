@@ -22,10 +22,18 @@
 	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(70,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 [alias]
-	# git log --name-status
-	s = status -s
+	# Diff
+	d = diff
+	ds = diff --stat
+	dc = diff --cached
+	# Commit
+	ca = commit -a --verbose
+	cam = commit -a -m
+	amend = commit --amend --verbose
 	wip = "!git add --all; git commit -a -m \"wip: update\""
 	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
+	# Status and Statistics
+	s = status -s
 	cloc = !cloc -vcs git
 	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
 	changelog = !git --no-pager log --oneline --pretty=\"%cs %s\" -n5
