@@ -12,14 +12,28 @@
 	proxy = socks5h://127.0.0.1:1080
 [init]
 	defaultBranch = main
+[pager]
+	log = less -S
 [gpg]
 	program = gpg2
+[pretty]
+	# PRETTY FORMATS COLORS: https://stackoverflow.com/a/15458378/15763223
+	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(70,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
+	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 [alias]
 	# git log --name-status
 	wip = "!git add --all; git commit -a -m \"wip: update\""
 	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
-	# cloc -vcs git
+	cloc = !cloc -vcs git
 	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
 	changelog = !git --no-pager log --oneline --pretty=\"%cs %s\" -n5
-	contrib = !git shortlog -sne
+	contrib = shortlog -sne
 	tree = !git ls-files $1 | tree --fromfile
+	find = !git ls-tree --full-tree -r --name-only HEAD | sk --layout=reverse-list --preview-window=up --height=15
+	# Compact and Full Logs
+	lc = log --graph --pretty=xoneline
+	lf = log --stat --pretty=xfull
+	# git arc [tar|tgz|tar.gz|zip]
+	# git archive --list
+	# zcat repo_2022-03-22_feat-initial-commit.tar.gz | git get-tar-commit-id
+	arc = "!f() { test -z \"$1\" && return 1; RN=\"$(basename $(git rev-parse --show-toplevel))\"; EN=\"$(git log -1 --oneline --pretty=%as_%f)\"; git archive --format=\"$1\" -o \"${RN}_${EN}.${1}\" --prefix=\"$(basename $(git rev-parse --show-toplevel))_$(date -I)/\" HEAD; }; f"
