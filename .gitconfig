@@ -33,7 +33,7 @@
 	find = !git ls-tree --full-tree -r --name-only HEAD | sk --layout=reverse-list --preview-window=up --height=15
 	# Compact and Full Logs
 	lc = log --graph --pretty=xoneline
-	lf = log --stat --pretty=xfull
+	lf = log --graph --stat --pretty=xfull
 	# git arc [tar|tgz|tar.gz|zip]
 	# git archive --list
 	# zcat repo_2022-03-22_feat-initial-commit.tar.gz | git get-tar-commit-id
