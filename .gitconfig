@@ -22,3 +22,4 @@
 	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
 	changelog = !git --no-pager log --oneline --pretty=\"%cs %s\" -n5
 	contrib = !git shortlog -sne
+	tree = !git ls-files $1 | tree --fromfile
