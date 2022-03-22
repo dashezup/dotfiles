@@ -1,7 +1,8 @@
 [user]
 	name = Dash Eclipse
 	email = dashezup@disroot.org
-	signingkey = 277795766AFD1FB3
+	# gpg --list-secret-keys --keyid-format=long
+	signingkey = 82C68EF1A42202D8
 [commit]
 	gpgsign = true
 [diff]
