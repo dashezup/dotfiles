@@ -5,23 +5,26 @@
 	signingkey = 82C68EF1A42202D8
 [commit]
 	gpgsign = true
-[diff]
-	tool = vimdiff
+[gpg]
+	program = gpg2
 [http]
 	proxy = socks5h://127.0.0.1:1080
 [https]
 	proxy = socks5h://127.0.0.1:1080
 [init]
 	defaultBranch = main
+[diff]
+	tool = vimdiff
 [pager]
 	log = less -cS
-[gpg]
-	program = gpg2
+	show = less -cS
 [pretty]
 	# PRETTY FORMATS COLORS: https://stackoverflow.com/a/15458378/15763223
 	# 50/72 Rule
 	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(50,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
+[format]
+	pretty = xfull
 [alias]
 	# Diff
 	d = diff
