@@ -5,6 +5,10 @@ get_rtc() {
 	printf "$(<${rtc_path}/date) $(<${rtc_path}/time)"
 }
 
+get_date() {
+	printf "%(%F %T)T\\n" "-1"
+}
+
 get_uptime() {
 	proc_uptime=$(</proc/uptime)
 	local T=${proc_uptime%%.*}
@@ -20,12 +24,12 @@ get_uptime() {
 
 echo '{"version": 1, "click_events": true}'
 echo '['
-echo '[{"name": "date", "full_text": "date", "separator": false, "color": "#FFA726"}, {"name": "uptime", "full_text": "uptime", "separator": false, "color": "#43A047"}]'
+echo '[{"name": "date", "full_text": "DATE", "separator": false, "color": "#FFA726"}, {"name": "uptime", "full_text": "UPTIME", "separator": false, "color": "#43A047"}]'
 
 while read line; do
 	if [[ $line == *"name"*"uptime"* ]]; then
-		notify-send.sh "uptime" "$(get_uptime)"
+		notify-send.sh "UPTIME" "📅 $(get_uptime)"
 	elif [[ $line == *"name"*"date"* ]]; then
-		notify-send.sh "date" "$(get_rtc)"
+		notify-send.sh "DATE" "🖥 $(get_date)"
 	fi
 done
