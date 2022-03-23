@@ -14,12 +14,13 @@
 [init]
 	defaultBranch = main
 [pager]
-	log = less -S
+	log = less -cS
 [gpg]
 	program = gpg2
 [pretty]
 	# PRETTY FORMATS COLORS: https://stackoverflow.com/a/15458378/15763223
-	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(70,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
+	# 50/72 Rule
+	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(50,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 [alias]
 	# Diff
