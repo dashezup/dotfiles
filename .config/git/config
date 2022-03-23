@@ -24,7 +24,8 @@
 	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(50,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 	# git shortlog -ne --format=shortlog
-	shortlog = format:* [%h] %<(50,trunc)%s %as (%cr)
+	shortlog = tformat:* [%h] %<(50,trunc)%s %as (%cr)
+	changelog = tformat:%m %C(green)%cs%C(reset) %s
 [format]
 	pretty = xfull
 [alias]
@@ -33,18 +34,28 @@
 	ds = diff --stat
 	dc = diff --cached
 	# Commit
-	ca = commit -a --verbose
+	gpgoff = config commit.gpgsign false
+	ca = commit -a -v
 	cam = commit -a -m
-	amend = commit --amend --verbose
-	wip = "!git add --all; git commit -a -m \"wip: update\""
+	amend = commit -v --amend
+	wip = "!git add --all; git commit -v -a -m '[WIP]' -e"
 	wtc = "!git add --all; git commit -a -m \"[WTC] $(curl -s whatthecommit.com/index.txt)\""
+	# Conventional Commits
+	empty = commit -v -m 'chore: initial empty commit' --allow-empty -e
+	feat = commit -v -m 'feat: ' -e
+	fix = commit -v -m 'fix: ' -e
+	docs = commit -v -m 'docs: ' -e
+	chore = commit -v -m 'chore: ' -e
+	refactor = commit -v -m 'refactor: ' -e
+	style = commit -v -m 'style: ' -e
+	test = commit -v -m 'test: ' -e
 	# Status and Statistics
 	s = status -s
 	cloc = !cloc -vcs git
 	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
-	changelog = !git --no-pager log --oneline --pretty=\"%cs %s\" -n5
+	changelog = !git --no-pager log --oneline --pretty=changelog -n5
 	contrib = shortlog -sne
-	tree = !git ls-files $1 | tree --fromfile
+	tree = "!f() { git ls-files $@ | tree --fromfile; }; f"
 	find = !git ls-tree --full-tree -r --name-only HEAD | sk --layout=reverse-list --preview-window=up --height=15
 	# Compact and Full Logs
 	lc = log --graph --pretty=xoneline
