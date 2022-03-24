@@ -20,7 +20,7 @@ set $term foot
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 # https://git.suckless.org/dmenu/file/config.def.h.html
-set $menu bemenu-run -p '' -P '' --hf '#eeeeee' --hb '#005577'
+set $menu bemenu-run -p '' -P '' --hf '#eeeeee' --hb '#005577' -H23
 
 ### Output configuration
 #
@@ -34,9 +34,14 @@ output * bg `find $wallpaper_path -type f | shuf -n1` fill
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output HDMI-A-1 position 0,0
+#output HDMI-A-1 position 0,0
 #output HDMI-A-1 resolution 1440x900 position 0,0
 #output VGA-1 resolution 1440x900 position 1440,0
+#
+#output VGA-1 resolution 1440x900 position 0,0
+#output HDMI-A-1 resolution 1440x900 position 1440,0
+output VGA-1 resolution 1440x900 position 0,180
+output HDMI-A-1 resolution 1920x1080 position 1440,0
 
 ### Idle configuration
 #
@@ -230,7 +235,7 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-    status_command ~/.config/sway/status-click-notify.sh
+    status_command ~/.config/sway/status-simple.sh
 
     strip_workspace_numbers yes
 
@@ -248,7 +253,7 @@ bar {
 include /etc/sway/config.d/*
 
 # Extra
-xwayland disable
+# xwayland disable
 
 # client.focused #0079d3 #0079d3 #ffffff #2e9ef4 #0079d3
 client.focused #0079d3 #0079d3 #ffffff #2e9ef4 #0079d3
@@ -256,37 +261,62 @@ client.unfocused #545862 #2e3440 #c8ccd4 #292d2e #434c5e
 client.focused_inactive #7986cb #7986cb #c8ccd4 #2e9ef4 #7986cb
 default_border pixel 3
 # hide_edge_borders smart
-assign [app_id="firefox-wayland"] workspace $ws2
-assign [app_id="telegramdesktop"] workspace $ws3
+assign [app_id="firefox-wayland"] workspace $ws8
+assign [app_id="appimagekit_3a48058ef277d45ae2228089429c0259-Telegram_Desktop"] workspace $ws3
 
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
 bindsym $mod+Ctrl+Print exec swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp - | grim -g - - | wl-copy -t image/png
 bindsym $mod+Shift+Print exec grim -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')" - | wl-copy -t image/png
+
 # Windows
 # swaymsg -t get_tree
-for_window [class="Gimp"] floating enable
-for_window [class="TelegramDesktop"] floating enable
+for_window [class="scrcpy"] floating enable
+for_window [class="Tk"] floating enable
+for_window [class="Toplevel"] floating enable
+for_window [app_id="Thunar"] floating enable
+# Instant Messaging
+#for_window [class="TelegramDesktop"] floating enable
 for_window [class="uTox"] floating enable
 for_window [class="utoxvideo"] floating enable
-for_window [class="scrcpy"] floating enable
 for_window [class="DeltaChat"] floating enable
+# Multimedia
+for_window [class="Gimp"] floating enable
 for_window [class="feh"] floating enable
 for_window [app_id="imv"] floating enable
 for_window [app_id="mpv"] floating enable
-for_window [app_id="Thunar"] floating enable
+for_window [class="Spotify"] floating enable, resize grow width 750 px, resize grow height 300 px
+for_window [app_id="firefox-wayland" title="^Picture-in-Picture$"] floating enable, sticky enable, move window to output VGA-1
+# Ebook Readers
+for_window [app_id="org.pwmt.zathura"] floating enable, resize set width 1440 px height 960 px
+for_window [class="MuPDF"] floating enable
+for_window [app_id="com.github.johnfactotum.Foliate"] floating enable
+for_window [class="EDRLab.ThoriumReader"] floating enable
+# Browser
+for_window [app_id="firefox-wayland" title="^Firefox - Choose User Profile$"] floating enable
+for_window [app_id="firefox-wayland" title="^About Mozilla Firefox$"] floating enable
 
 # multi-head
 bindsym $mod+tab workspace back_and_forth
-workspace $ws1 output HDMI-A-1
-workspace $ws2 output HDMI-A-1
-workspace $ws3 output HDMI-A-1
-workspace $ws4 output HDMI-A-1
-workspace $ws5 output VGA-1
-workspace $ws6 output VGA-1
-workspace $ws7 output VGA-1
-workspace $ws8 output VGA-1
-workspace $ws9 output VGA-1
-workspace $ws10 output VGA-1
+#workspace $ws1 output HDMI-A-1
+#workspace $ws2 output HDMI-A-1
+#workspace $ws3 output HDMI-A-1
+#workspace $ws4 output HDMI-A-1
+#workspace $ws5 output VGA-1
+#workspace $ws6 output VGA-1
+#workspace $ws7 output VGA-1
+#workspace $ws8 output VGA-1
+#workspace $ws9 output VGA-1
+#workspace $ws10 output VGA-1
+workspace $ws1 output VGA-1
+workspace $ws2 output VGA-1
+workspace $ws3 output VGA-1
+workspace $ws4 output VGA-1
+workspace $ws5 output HDMI-A-1
+workspace $ws6 output HDMI-A-1
+workspace $ws7 output HDMI-A-1
+workspace $ws8 output HDMI-A-1
+workspace $ws9 output HDMI-A-1
+workspace $ws10 output HDMI-A-1
 focus output HDMI-A-1
 focus_follows_mouse no
 #gaps outer 2
