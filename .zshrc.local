@@ -2,35 +2,54 @@
 source ~/.local/share/zsh/site-functions/_trt && compdef _trt trt
 
 ## alias
-alias sv="doas /usr/bin/sv"
-alias vsv="doas /usr/bin/vsv"
 alias gpg="/usr/bin/gpg2"
+alias bap="bat --style=plain --paging=always"
 alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
 alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
+alias neofetch="USER=user HOSTNAME=hostname /usr/bin/neofetch"
+alias screen="TERM=screen screen"
+alias ssh="TERM=xterm-256color ssh"
+alias pc-ssh="TERM=xterm-256color proxychains ssh"
+alias xcopy="xclip -selection clipboard"
+# Void Linux
+alias sv="doas /usr/bin/sv"
+alias vsv="doas /usr/bin/vsv"
+alias usv="SVDIR=~/.local/service /usr/bin/sv"
+alias uvsv="SVDIR=~/.local/service /usr/bin/vsv"
 
 ## plugins
-. /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#. /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+. ~/.local/src/github/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 . /usr/share/zsh/site-functions/skim-key-bindings.zsh
 #. $HOME/.local/share/grc/grc.zsh
+. ~/.local/src/github/zsh-z/zsh-z.plugin.zsh
 
 if [ ! -z ${DISPLAY+x} ] ; then
 	. /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 	. $HOME/.p10k.zsh
         POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
-	ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
-	#ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=blue,underline'
-	#ZSH_HIGHLIGHT_STYLES[precommand]='fg=blue,underline'
-	#ZSH_HIGHLIGHT_STYLES[arg0]='fg=blue'
-	#ZSH_HIGHLIGHT_STYLES[comment]='fg=239'
-	ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=32,underline
-	ZSH_HIGHLIGHT_STYLES[precommand]=fg=32,underline
-	ZSH_HIGHLIGHT_STYLES[arg0]=fg=32 # 26
-	ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=38'
-	ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=38'
-	ZSH_HIGHLIGHT_STYLES[default]='fg=38'
-	ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=red'
-	ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=red'
+	#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+	##ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=blue,underline'
+	##ZSH_HIGHLIGHT_STYLES[precommand]='fg=blue,underline'
+	##ZSH_HIGHLIGHT_STYLES[arg0]='fg=blue'
+	##ZSH_HIGHLIGHT_STYLES[comment]='fg=239'
+	#ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=32,underline
+	#ZSH_HIGHLIGHT_STYLES[precommand]=fg=32,underline
+	#ZSH_HIGHLIGHT_STYLES[arg0]=fg=32 # 26
+	#ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=38'
+	#ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=38'
+	#ZSH_HIGHLIGHT_STYLES[default]='fg=38'
+	#ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=red'
+	#ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=red'
+fi
+
+# SSH Agent
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+	ssh-agent > "$HOME/.ssh/ssh-agent.env" # or "$XDG_RUNTIME_DIR/ssh-agent.env"
+fi
+if [[ ! "$SSH_AUTH_SOCK" ]]; then
+	eval "$(<"$HOME/.ssh/ssh-agent.env")" >/dev/null
 fi
 
 ## functions
