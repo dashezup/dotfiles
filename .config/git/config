@@ -60,7 +60,9 @@
 	# Compact and Full Logs
 	lc = log --graph --pretty=xoneline
 	lf = log --graph --stat --pretty=xfull
+	# Misc
 	# git arc [tar|tgz|tar.gz|zip]
 	# git archive --list
 	# zcat repo_2022-03-22_feat-initial-commit.tar.gz | git get-tar-commit-id
 	arc = "!f() { test -z \"$1\" && return 1; FMT=\"$1\"; RN=\"$(basename $(git rev-parse --show-toplevel))\"; EN=\"$(git log -1 --oneline --pretty=%as_%f)\"; git archive --format=\"$FMT\" -o \"${RN}_${EN}.${FMT}\" --prefix=\"${RN}/\" HEAD; }; f"
+	alias = "!git config -l | grep alias | cut -c 7- | column -s'=' -t -l2 | GREP_COLORS='ms=1;32' egrep --color 'f\\(\\)|$'"
