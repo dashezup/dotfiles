@@ -18,6 +18,7 @@
 [pager]
 	log = less -cS
 	show = less -cS
+	diff = less -cS
 [pretty]
 	# PRETTY FORMATS COLORS: https://stackoverflow.com/a/15458378/15763223
 	# 50/72 Rule
@@ -56,7 +57,7 @@
 	changelog = !git --no-pager log --oneline --pretty=changelog -n5
 	contrib = shortlog -sne
 	tree = "!f() { git ls-files $@ | tree --fromfile; }; f"
-	find = !git ls-tree --full-tree -r --name-only HEAD | sk --layout=reverse-list --preview-window=up --height=15
+	find = !git ls-tree --full-tree -r --name-only HEAD | sk --multi --layout=reverse --prompt='git find '
 	# Compact and Full Logs
 	lc = log --graph --pretty=xoneline
 	lf = log --graph --stat --pretty=xfull
@@ -66,3 +67,5 @@
 	# zcat repo_2022-03-22_feat-initial-commit.tar.gz | git get-tar-commit-id
 	arc = "!f() { test -z \"$1\" && return 1; FMT=\"$1\"; RN=\"$(basename $(git rev-parse --show-toplevel))\"; EN=\"$(git log -1 --oneline --pretty=%as_%f)\"; git archive --format=\"$FMT\" -o \"${RN}_${EN}.${FMT}\" --prefix=\"${RN}/\" HEAD; }; f"
 	alias = "!git config -l | grep alias | cut -c 7- | column -s'=' -t -l2 | GREP_COLORS='ms=1;32' egrep --color 'f\\(\\)|$'"
+	fzlog = !git log --oneline --pretty=xoneline --color=always | fzf --no-sort --ansi --multi --inline-info --reverse --prompt='git log ' --preview='git show {+1} --color=always' --bind='enter:execute:git show {+1} --color=always' --bind='F2:toggle-preview'
+	fzcheckout = "!TARGET=$({ git branch --all --color -vv | sed 's/^/branch,/'; git tag | sed 's/^/tag,  /'; } | column -s, -t -l2 | fzf --ansi --no-sort --layout=reverse --info=inline --prompt='git checkout ' | awk '{print $2}') && test ! -z \"$TARGET\" && echo \"> git checkout $TARGET\" && git checkout \"$TARGET\""
