@@ -11,6 +11,7 @@ alias screen="TERM=screen screen"
 alias ssh="TERM=xterm-256color ssh"
 alias pc-ssh="TERM=xterm-256color proxychains ssh"
 alias xcopy="xclip -selection clipboard"
+alias diff="diff --color=always"
 # Void Linux
 alias sv="doas /usr/bin/sv"
 alias vsv="doas /usr/bin/vsv"
