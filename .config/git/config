@@ -1,16 +1,5 @@
-[user]
-	name = Dash Eclipse
-	email = dashezup@disroot.org
-	# gpg --list-secret-keys --keyid-format=long
-	signingkey = 82C68EF1A42202D8
-[commit]
-	gpgsign = true
-[gpg]
-	program = gpg2
-[http]
-	proxy = socks5h://127.0.0.1:1080
-[https]
-	proxy = socks5h://127.0.0.1:1080
+[include]
+	path = user.ini
 [init]
 	defaultBranch = main
 [diff]
