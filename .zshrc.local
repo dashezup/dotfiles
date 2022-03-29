@@ -12,7 +12,7 @@ alias diff="diff --color=always"
 # Language
 alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
 alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
-alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c'"
+alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c' --preview-window=up,60%,border-bottom"
 # Xorg
 alias xcopy="xclip -selection clipboard"
 # Void Linux
