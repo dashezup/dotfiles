@@ -3,16 +3,18 @@ source ~/.local/share/zsh/site-functions/_trt && compdef _trt trt
 
 ## alias
 alias gpg="/usr/bin/gpg2"
-alias bap="bat --style=plain --paging=always"
-alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
-alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
-alias neofetch="USER=user HOSTNAME=hostname /usr/bin/neofetch"
-alias screen="TERM=screen screen"
 alias ssh="TERM=xterm-256color ssh"
 alias pc-ssh="TERM=xterm-256color proxychains ssh"
-alias xcopy="xclip -selection clipboard"
+alias bap="bat --style=plain --paging=always"
+alias neofetch="USER=user HOSTNAME=hostname /usr/bin/neofetch"
+alias screen="TERM=screen screen"
 alias diff="diff --color=always"
+# Language
+alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
+alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
 alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c'"
+# Xorg
+alias xcopy="xclip -selection clipboard"
 # Void Linux
 alias sv="doas /usr/bin/sv"
 alias vsv="doas /usr/bin/vsv"
