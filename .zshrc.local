@@ -12,6 +12,7 @@ alias ssh="TERM=xterm-256color ssh"
 alias pc-ssh="TERM=xterm-256color proxychains ssh"
 alias xcopy="xclip -selection clipboard"
 alias diff="diff --color=always"
+alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c'"
 # Void Linux
 alias sv="doas /usr/bin/sv"
 alias vsv="doas /usr/bin/vsv"
@@ -76,9 +77,6 @@ speedtest-connection() {
 	local time_seconds=$(curl -o/dev/null -sw '%{time_appconnect}' 'https://connectivitycheck.gstatic.com/generate_204')
 	printf "%.0fms\n" $((time_seconds * 1000))
 }
-
-# wordnet
-wn() { while true; do dict -d wn $(read -e); done }
 
 # zsh-insulter
 if [ -f /etc/zsh.command-not-found ]; then
