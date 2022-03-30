@@ -12,7 +12,7 @@ alias diff="diff --color=always"
 # Language
 alias speak="/usr/bin/trans -b -speak -no-translate -no-init"
 alias zh-TW="/usr/bin/trans -shell -brief -theme random :zh-TW -no-init"
-alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c' --preview-window=up,60%,border-bottom"
+alias wn="cut -f1 /usr/share/dict/wn.index | fzf --layout=reverse --info=inline --prompt='WordNet > ' --preview='dict --database=wn {}' --bind='enter:execute:dict --database=wn {} | less -c' --preview-window=up,border-bottom"
 # Xorg
 alias xcopy="xclip -selection clipboard"
 # Void Linux
@@ -27,6 +27,7 @@ alias uvsv="SVDIR=~/.local/service /usr/bin/vsv"
 . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 . /usr/share/zsh/site-functions/skim-key-bindings.zsh
 #. $HOME/.local/share/grc/grc.zsh
+#. /usr/share/skim/key-bindings.zsh
 . ~/.local/src/github/zsh-z/zsh-z.plugin.zsh
 
 if [ ! -z ${DISPLAY+x} ] ; then
