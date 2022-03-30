@@ -81,6 +81,45 @@ speedtest-connection() {
 	printf "%.0fms\n" $((time_seconds * 1000))
 }
 
+dict() {
+	/usr/bin/dict $@ \
+	| GREP_COLORS='ms=00;30;44' grep --color=always -P '(?<=^From\ ).*(?=\ \[)|$' \
+	| GREP_COLORS='ms=01;37' grep --color=always -P '(?<=  )[0-9]\.|$'
+}
+
+# https://dict.revised.moe.edu.tw/
+dict_revised() {
+	dict -d dict_revised_2015 $(read -e) \
+	| GREP_COLORS='ms=00;32' grep --color=always "\[形\]\|\[動\]\|\[名\]\|\[助\]\|\[副\]\|$"
+}
+
+sdict() {
+	local ALL_DICT=$(dict -D | tail -n+2 | cut -d' ' -f2-)
+	local COUNT_DICT=$(echo "$ALL_DICT" | wc -l)
+	if [ -z "$1" ]; then
+		echo "$ALL_DICT" \
+			| fzf --layout=reverse --info=inline --height="$COUNT_DICT" --prompt='dict > ' \
+			| read DB DICT || exit 0
+	else
+		echo "$ALL_DICT" | while read database dictionary; do
+			if [ "$1" = "$database" ]; then
+				DB="$database"
+				DICT="$dictionary"
+				break
+			fi
+		done
+		[ -z "$DB" ] && { echo "Invalid dict db: $1"; exit 1; }
+	fi
+	cut -f1 "/usr/share/dict/${DB}.index" \
+		| fzf \
+			--layout=reverse \
+			--info=inline \
+			--prompt="${DICT} > " \
+			--preview="dict --database=${DB} {}" \
+			--bind="enter:execute:dict --database=${DB} {} | less -c" \
+			--preview-window=up,border-bottom
+}
+
 # zsh-insulter
 if [ -f /etc/zsh.command-not-found ]; then
 	. /etc/zsh.command-not-found
