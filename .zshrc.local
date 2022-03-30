@@ -99,7 +99,7 @@ sdict() {
 	if [ -z "$1" ]; then
 		echo "$ALL_DICT" \
 			| fzf --layout=reverse --info=inline --height="$COUNT_DICT" --prompt='dict > ' \
-			| read DB DICT || exit 0
+			| read DB DICT || return 0
 	else
 		echo "$ALL_DICT" | while read database dictionary; do
 			if [ "$1" = "$database" ]; then
@@ -108,7 +108,7 @@ sdict() {
 				break
 			fi
 		done
-		[ -z "$DB" ] && { echo "Invalid dict db: $1"; exit 1; }
+		[ -z "$DB" ] && { echo "Invalid dict db: $1"; return 1; }
 	fi
 	cut -f1 "/usr/share/dict/${DB}.index" \
 		| fzf \
