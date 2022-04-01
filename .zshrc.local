@@ -116,7 +116,10 @@ sdict() {
 			--info=inline \
 			--prompt="${DICT} > " \
 			--preview="dict --database=${DB} {}" \
+			--header="[Enter] View | [CTRL+T] Translate Shell | [CTRL+S] Listen" \
 			--bind="enter:execute:dict --database=${DB} {} | less -c" \
+			--bind="ctrl-t:execute:trans {} | less -c" \
+			--bind="ctrl-s:execute-silent:trans -speak {}" \
 			--preview-window=up,border-bottom
 }
 
