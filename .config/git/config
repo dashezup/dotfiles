@@ -13,6 +13,8 @@
 	# 50/72 Rule
 	xoneline = format:%C(yellow)%h%C(reset) %C(auto)%<(50,trunc)%s %C(white dim)%as%C(reset) %C(green dim)(%cr)%C(reset) %C(reset)%C(blue bold)%<(7)%aN%C(reset)%C(auto)%d
 	xfull = format:%m %C(yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
+	# git log --pretty=full --stat -p
+	xpfull = format:%m %C(black yellow)%H%C(reset)%C(auto)%d%n%m %C(blue bold)%aN%C(reset) %C(ul)<%ae>%C(reset)%n%m %C(cyan)%ai%C(reset) %C(magenta)(%cr)%C(reset)%n%n%C(auto)%w(0,4,4)%B
 	# git shortlog -ne --format=shortlog
 	shortlog = tformat:* [%h] %<(50,trunc)%s %as (%cr)
 	changelog = tformat:%m %C(green)%cs%C(reset) %s
@@ -59,3 +61,4 @@
 	fz = !ALIAS=$(echo 'fzlog fzcheckout find' | tr ' ' '\n' | fzf --layout=reverse --inline-info --prompt='git ') && git $ALIAS
 	fzlog = !git log --oneline --pretty=xoneline --color=always | fzf --no-sort --ansi --multi --inline-info --reverse --prompt='git log ' --preview='git show {+1} --color=always' --bind='enter:execute:git show {+1} --color=always' --bind='F2:toggle-preview'
 	fzcheckout = "!TARGET=$({ git branch --all --color -vv | sed 's/^/branch,/'; git tag | sed 's/^/tag,  /'; } | column -s, -t -l2 | fzf --ansi --no-sort --layout=reverse --info=inline --prompt='git checkout ' | awk '{print $2}') && test ! -z \"$TARGET\" && echo \"> git checkout $TARGET\" && git checkout \"$TARGET\""
+	fzpath = "!git ls-files . | fzf --no-sort --ansi --multi --info=inline --layout=reverse --prompt='git log -- ' --preview='git log --color=always --pretty=xoneline -- {}' --bind='enter:execute:git log --color=always --pretty=xpfull --stat -p -- {}' --bind='F2:toggle-preview' --preview-window=right,border-left"
