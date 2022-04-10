@@ -1,0 +1,2 @@
+#!/bin/sh
+NOPRECMD=1 /usr/bin/foot -T "user@hostname:" zsh
