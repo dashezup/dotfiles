@@ -9,6 +9,7 @@ alias bap="bat --style=plain --paging=always"
 alias neofetch="USER=user HOSTNAME=hostname /usr/bin/neofetch"
 alias screen="TERM=screen screen"
 alias diff="diff --color=always"
+alias weather="curl --silent 'https://wttr.in/Amsterdam' | tail -n+2 | head -n-1"
 # Language
 alias speak="/usr/bin/trans --brief --theme=random --speak --no-translate --no-init"
 alias zh-TW="/usr/bin/trans --interactive --brief --theme=random :zh-TW --no-init"
