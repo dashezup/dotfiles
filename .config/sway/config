@@ -262,7 +262,7 @@ client.focused_inactive #7986cb #7986cb #c8ccd4 #2e9ef4 #7986cb
 default_border pixel 3
 # hide_edge_borders smart
 assign [app_id="firefox-wayland"] workspace $ws8
-assign [app_id="appimagekit_3a48058ef277d45ae2228089429c0259-Telegram_Desktop"] workspace $ws3
+assign [app_id="^appimagekit_.+-Telegram_Desktop$"] workspace $ws3
 
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
 bindsym $mod+Ctrl+Print exec swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp - | grim -g - - | wl-copy -t image/png
@@ -276,6 +276,7 @@ for_window [class="Toplevel"] floating enable
 for_window [app_id="Thunar"] floating enable
 # Instant Messaging
 #for_window [class="TelegramDesktop"] floating enable
+for_window [title="TelegramDesktop" app_id="^appimagekit_.+-Telegram_Desktop"] floating enable
 for_window [class="uTox"] floating enable
 for_window [class="utoxvideo"] floating enable
 for_window [class="DeltaChat"] floating enable
