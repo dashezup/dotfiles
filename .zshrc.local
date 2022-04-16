@@ -198,7 +198,7 @@ mat() {
 	rm -f /tmp/cw.wav
 }
 
-# xbps
+# Void Linux, xbps
 #git -C ~/.cache/xlocate.git ls-tree --full-tree -r --name-only HEAD | rev | sed 's/_/ /; s/-/ /' | rev | column -t -R3 | sk --inline-info --layout=reverse-list --preview="git -C \"$HOME/.cache/xlocate.git\" show master:$(echo {1}-{2}_{3})" --preview-window=up:50% -m
 fxls() {
 	local HEADER="[Enter] Print selected [TAB] Toggle selection [ALT-F] View file [ALT-I] Info [ALT+H] Homepage"
