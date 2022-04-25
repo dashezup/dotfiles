@@ -9,3 +9,5 @@ NGINX_DOCUMENT_ROOT="/var/www/localhost/htdocs"
 PROXYCHAINS_QUIET_MODE=1
 CLICOLOR_FORCE=1
 export GPG_TTY=$(tty)
+
+PASSWORD_STORE_DIR="$HOME/.local/src/local/password-store"
