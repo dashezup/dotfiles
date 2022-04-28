@@ -47,6 +47,25 @@ run_sowm() {
 	exec sowm
 }
 
+run_exwm() {
+	#xhost +SI:localuser:$USER
+	xsetroot -cursor_name left_ptr
+	xset r rate 200 60
+	exec emacs -q --load $HOME/Downloads/init.el
+}
+
+run_tinywm() {
+	xrdb $HOME/.Xresources
+	feh --randomize \
+		--bg-scale $HOME/Pictures/Wallpapers/Landscape/*.jpg \
+		--bg-scale $HOME/Pictures/Wallpapers/Portrait/*.jpg
+	st &
+	exec tinywm
+}
+
+run_i3() {
+	exec i3
+}
 
 export SESSION=${1:-dwm}
 
@@ -59,8 +78,10 @@ case $SESSION in
 	xfce )		exec startxfce4;;
 	budgie )	exec budgie-desktop;;
 	gnome )		exec gnome-session;;
+	i3 )		exec run_i3;;
 	2bwm )		run_2bwm;;
 	sowm )		run_sowm;;
+	exwm )		run_exwm;;
+	tinywm )	run_tinywm;;
 	* )		exec $SESSION;;
 esac
-
