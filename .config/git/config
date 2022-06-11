@@ -8,6 +8,7 @@
 	log = less -cS
 	show = less -cS
 	diff = less -cS
+	shortlog = less -cS
 [pretty]
 	# PRETTY FORMATS COLORS: https://stackoverflow.com/a/15458378/15763223
 	# 50/72 Rule
