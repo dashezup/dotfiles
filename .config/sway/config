@@ -274,6 +274,7 @@ for_window [class="scrcpy"] floating enable
 for_window [class="Tk"] floating enable
 for_window [class="Toplevel"] floating enable
 for_window [app_id="Thunar"] floating enable
+for_window [app_id="electrum"] floating enable
 # Instant Messaging
 #for_window [class="TelegramDesktop"] floating enable
 for_window [title="TelegramDesktop" app_id="^appimagekit_.+-Telegram_Desktop"] floating enable
