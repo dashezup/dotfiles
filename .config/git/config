@@ -24,6 +24,8 @@
 [format]
 	pretty = xfull
 [alias]
+	# Init
+	template = "!f() { git init --template=\"$1/.git\" && git stash; }; f"
 	# Diff
 	d = diff
 	ds = diff --stat
