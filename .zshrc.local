@@ -234,6 +234,14 @@ tb() {
 	zmodload zsh/net/tcp; ztcp ezup.dev 9999; cat >&$REPLY; cat <&$REPLY | tee >(xclip -selection clipboard); ztcp -c $REPLY
 }
 
+
+np() {
+	# https://unix.stackexchange.com/a/524139
+	local url="https://paste.c-net.org/"
+	[ -s "$1" ] && { curl --silent --data-binary @"$1" --header "x-random;" --header "X-FileName: ${1##*/}" "$url"; return 0; }
+	curl --silent --header "x-random;" --data-binary @- "$url"
+}
+
 # logpaste.com
 logpaste() {
 	[ -s "$1" ] && { curl -F "_=@$@" http://logpaste.com; return 0; }
