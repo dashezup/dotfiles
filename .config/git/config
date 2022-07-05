@@ -50,7 +50,9 @@
 	s = status -s
 	cloc = !cloc -vcs git
 	stats = !git diff --stat \"$(git hash-object -t tree /dev/null)\"
+	# git changelog -n-1
 	changelog = !git --no-pager log --oneline --pretty=changelog -n5
+	changelog-md = "!git log --oneline --pretty=changelog | sed 's/^>/-/; 1i # Changelog\\n' | tee CHANGELOG.md && git add CHANGELOG.md"
 	contrib = shortlog -sne
 	tree = "!f() { git ls-files $@ | tree --fromfile; }; f"
 	find = !git ls-tree --full-tree -r --name-only HEAD | sk --multi --layout=reverse --prompt='git find '
