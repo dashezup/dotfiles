@@ -82,6 +82,21 @@ speedtest-connection() {
 	printf "%.0fms\n" $((time_seconds * 1000))
 }
 
+cdgit() {
+	REPO_PATH=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ "$1" == / ]]; then
+		cd "${REPO_PATH}"
+		return
+	fi
+	if [ ! -z $REPO_PATH ]; then
+		NEW_PATH=$(git ls-tree -d -r --name-only HEAD | fzf --layout=reverse --inline-info --prompt='cd ' --height=20)
+		test -z $NEW_PATH || cd "$NEW_PATH"
+	else
+		echo "not a git repo"
+		return 1
+	fi
+}
+
 dict() {
 	/usr/bin/dict $@ \
 	| GREP_COLORS='ms=00;30;44' grep --color=always -P '(?<=^From\ ).*(?=\ \[)|$' \
